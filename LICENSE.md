@@ -1,188 +1,269 @@
-GitHub CodeQL Terms and Conditions
-==================================
-These GitHub CodeQL Terms and Conditions ("**Terms**") are a legal
-agreement between you (either as an individual or on behalf of an
-entity) and GitHub, Inc. regarding your use of the GitHub CodeQL
-software and associated documentation (collectively, the
-"**Software**"). By using the Software, you accept these Terms.
-**Please read all of these Terms;** in many cases, provisions set
-forth later in the Terms limit and qualify provisions set forth
-earlier in the Terms.  If you do not accept these Terms, do not
-download, install, use, or copy the Software.
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Lean Training – Voltaira</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-Definitions
------------
+<!-- Librairies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-In these Terms:
+<style>
+body{
+  margin:0;font-family:'Segoe UI',Arial;
+  background:linear-gradient(135deg,#0f1724,#1e293b);
+  color:#e6eef6;
+  display:flex;justify-content:center;align-items:center;min-height:100vh
+}
+.box{
+  background:#1e293b;padding:20px;border-radius:16px;
+  width:95%;max-width:700px;box-shadow:0 15px 40px rgba(0,0,0,.6)
+}
+header{
+  display:flex;align-items:center;gap:15px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  padding-bottom:10px;margin-bottom:15px
+}
+header img{height:45px}
+header h2{margin:0;color:#06b6d4}
+header span{font-size:13px;color:#9ca3af}
+input,button,select,textarea{
+  width:100%;padding:12px;margin-top:10px;border-radius:10px;border:none;font-size:15px
+}
+input,select,textarea{
+  background:#0f1724;color:#fff;border:1px solid rgba(255,255,255,.1)
+}
+button{background:#06b6d4;color:#041027;font-weight:700;cursor:pointer}
+.card{background:rgba(255,255,255,.05);padding:14px;border-radius:12px;margin-top:14px}
+.q{border-bottom:1px solid rgba(255,255,255,.15);padding:10px 0}
+.q small{color:#cbd5e1}
+.q button{width:48%}
+.q .vrai.active{background:#22c55e}
+.q .faux.active{background:#ef4444}
+.hidden{display:none}
+.footer{text-align:center;margin-top:15px;font-size:12px;color:#9ca3af}
+</style>
+</head>
 
-  * "OSI-approved License" means an Open Source Initiative
-    (OSI)-approved open source software license.
+<body>
 
-  * "Open Source Codebase" means a codebase that is released under an
-    OSI-approved License.
+<!-- LOGIN -->
+<div id="loginBox" class="box">
+  <header>
+    <img src="logo.png">
+    <div>
+      <h2>Lean Training</h2>
+      <span>Application de formation opérateurs</span>
+    </div>
+  </header>
 
-Use Rights; Scope of License
-----------------------------
+  <input id="pass" type="password" placeholder="Mot de passe">
+  <button id="btnLogin">Entrer</button>
 
-The Software is licensed on a per user basis. Here's what you may do
-with the Software, but subject to License Restrictions provisions
-below:
+  <div style="text-align:center;margin-top:20px">
+    <p>Scanner ce QR pour entrer</p>
+    <div id="qrcode"></div>
+  </div>
 
-  * Use the Software to perform academic research.
+  <div class="footer">Voltaira © Formation Interne</div>
+</div>
 
-  * Use the Software to demonstrate the Software.
+<!-- APP -->
+<div id="appBox" class="box hidden">
 
-  * Test CodeQL queries that are released under an OSI-approved
-    Licence to confirm that new versions of those queries continue to
-    find the right vulnerabilities.
+<header>
+  <img src="logo.png">
+  <div>
+    <h2>Lean Quiz – PRO</h2>
+    <span>Lean | Qualité | HSE</span>
+  </div>
+</header>
 
-Here's what you may also do with the Software, but only with an Open
-Source Codebase and subject to the License Restrictions provisions
-below:
+<div class="card">
+  <input id="nom" placeholder="Nom & Prénom *">
+  <input id="matricule" placeholder="Matricule *">
+</div>
 
-  * Perform analysis on the Open Source Codebase.
+<div class="card">
+  <select id="theme"></select>
+  <button id="btnStart">Commencer Quiz</button>
+</div>
 
-  * If the Open Source Codebase is hosted and maintained on
-    GitHub.com, generate CodeQL databases for or during automated
-    analysis, CI, or CD.
+<div class="card" id="quizBox"></div>
+<button id="btnSubmit">Soumettre</button>
+<p id="result"></p>
 
-License Restrictions
---------------------
+<button id="btnFormateur">👨🏫 Mode Formateur</button>
 
-These Terms do not authorize, and the Software may not be used for any
-purpose not expressly set forth above, including:
+<div id="formateurBox" class="card hidden">
+<h3>Mode Formateur</h3>
 
-  * To otherwise or in any other context generate any CodeQL database
-    for or during automated analysis, CI or CD, whether as part of
-    normal engineering processes or another context.
+<select id="fTheme"></select>
 
-  * To otherwise or in any other context use the Software in
-    connection with any codebase that is not an Open Source Codebase
-    (e.g., code in a private repo in GitHub).
+<textarea id="qFR" placeholder="Question (Français)"></textarea>
+<textarea id="qAR" placeholder="السؤال (العربية)"></textarea>
 
-_**Please note:** if your use of the Software is under a paid customer
-license for GitHub Advanced Security, the restrictions with respect to
-automated analysis, CI, and CD and use in connection with non-Open
-Source Codebases do not apply._
+<select id="fAnswer">
+  <option value="true">Vrai</option>
+  <option value="false">Faux</option>
+</select>
 
-At all times, except (and only to the extent) permitted by applicable
-law or applicable third-party license, you will not (and have no right
-to):
+<button id="btnAddQ">➕ Ajouter</button>
 
-  * work around any technical limitations in the Software that only
-    allow you to use it in certain ways;
+<h4>Questions existantes</h4>
+<div id="fList"></div>
 
-  * reverse engineer, decompile or disassemble the Software;
+<button id="btnExportAudit">📑 Export Audit IATF</button>
+</div>
 
-  * remove, minimize, block, or modify any notices of GitHub or its
-    suppliers in the Software;
+<div class="footer">Evidence de formation – Génération PDF automatique</div>
+</div>
 
-  * use the Software in any way that is against the law; or
+<script>
+const { jsPDF } = window.jspdf;
 
-  * share, publish, distribute or lend the Software, provide or make
-    available the Software as a hosted solution (whether on a
-    standalone basis or combined, incorporated or integrated with
-    other software or services) for others to use, or transfer the
-    Software or these Terms to any third party.
+const APP_PASSWORD="1234";
+const FORMATEUR_PASSWORD="form123";
+const PASS_PERCENT = 70;
 
-The Software is licensed, not sold. GitHub reserves all rights not
-expressly granted in these Terms.
+// DOM
+const el={
+loginBox:loginBox,appBox:appBox,pass:pass,btnLogin:btnLogin,
+nom:nom,matricule:matricule,theme:theme,btnStart:btnStart,
+quizBox:quizBox,btnSubmit:btnSubmit,result:result,
+btnFormateur:btnFormateur,formateurBox:formateurBox,
+fTheme:fTheme,qFR:qFR,qAR:qAR,fAnswer:fAnswer,
+btnAddQ:btnAddQ,fList:fList,btnExportAudit:btnExportAudit,
+qr:qrcode
+};
 
-Open Source Software
---------------------
+// QR
+new QRCode(el.qr,{
+text:"https://voltaira.com/leanquiz",
+width:128,height:128,colorDark:"#06b6d4",colorLight:"#fff"
+});
 
-The Software may include components licensed under open source
-software licenses. Any such licenses are included in the "Open Source
-Notices" documentation that is included with the Software. Such
-documentation also includes copies of all applicable open source
-licenses.
+// QUESTIONS
+let QUESTIONS=JSON.parse(localStorage.getItem("QUESTIONS_FR_AR"))||{
+Lean:[{fr:"Le Lean vise à éliminer les gaspillages.",ar:"اللين يهدف إلى القضاء على الهدر.",a:true}],
+Qualite:[{fr:"La qualité se contrôle seulement à la fin.",ar:"الجودة تتم مراقبتها فقط في النهاية.",a:false}],
+HSE:[{fr:"Le port des EPI est obligatoire.",ar:"ارتداء معدات الوقاية الشخصية إجباري.",a:true}]
+};
+localStorage.setItem("QUESTIONS_FR_AR",JSON.stringify(QUESTIONS));
 
-To the extent the terms of the licenses applicable to open source
-components require GitHub to make an offer to provide source code in
-connection with the Software, such offer is hereby made, and you may
-exercise it by contacting GitHub: https://github.com/contact.
+// LOGIN
+btnLogin.onclick=()=>{
+if(pass.value===APP_PASSWORD){
+loginBox.classList.add("hidden");
+appBox.classList.remove("hidden");
+loadThemes();
+}else alert("Mot de passe incorrect");
+};
 
-Unless otherwise agreed to in writing with GitHub, your agreement with
-GitHub will always include, at a minimum, these Terms. Open source
-software licenses for the Software's source code constitute separate
-written agreements. To the limited extent that any open source
-software license expressly supersedes these Terms, such open source
-license governs your use of the applicable component(s) of the
-Software subject to such license.
+function loadThemes(){
+theme.innerHTML="";fTheme.innerHTML="";
+Object.keys(QUESTIONS).forEach(t=>{
+theme.innerHTML+=`<option>${t}</option>`;
+fTheme.innerHTML+=`<option>${t}</option>`;
+});
+refreshF();
+}
 
-GitHub Trademarks
------------------
+let current=[],answers=[];
 
-These Terms do not grant any right or license to use any of GitHub's
-trademarks or logos, including, without limitation, the names GitHub
-and CodeQL and any Software logo designs in the "logos" folder of the
-Software. You agree not to display or use any of these trademarks or
-logos in any manner without GitHub's prior written permission, except
-as allowed by GitHub's Logos and Usage Policy located at
-https://github.com/logos. GitHub reserves all right, title and
-interest in and to all GitHub trademarks and logos.
+// START QUIZ
+btnStart.onclick=()=>{
+current=QUESTIONS[theme.value];
+quizBox.innerHTML="";answers=[];
+current.forEach((q,i)=>{
+quizBox.innerHTML+=`
+<div class="q">
+<b>${q.fr}</b><br><small>${q.ar}</small><br><br>
+<button class="vrai" onclick="answer(${i},true,this)">Vrai</button>
+<button class="faux" onclick="answer(${i},false,this)">Faux</button>
+</div>`;
+});
+};
 
-Additional Services
--------------------
+// ANSWER
+function answer(i,v,b){
+if(answers[i]!==undefined)return;
+answers[i]=v;b.classList.add("active");
+}
+window.answer=answer;
 
-Auto-Updates: The Software may include an auto-update service. If the
-Software automatically enables such service (or, if it is not
-automatically enabled and you choose to use it), GitHub will
-automatically update the Software when a new version is available.
+// SUBMIT
+btnSubmit.onclick=()=>{
+if(!nom.value||!matricule.value){alert("Nom & Matricule obligatoires");return;}
+if(answers.length<current.length){alert("Répondez à toutes les questions");return;}
 
-Support
--------
+let correct=0;
+current.forEach((q,i)=>{if(answers[i]===q.a)correct++;});
 
-Because the Software is "as-is," GitHub may not provide support for it.
+const percent=Math.round((correct/current.length)*100);
+const status=percent>=PASS_PERCENT?"VALIDÉ":"NON VALIDÉ";
 
-Export Control
---------------
+result.innerText=`Résultat : ${percent}% – ${status}`;
+generatePDF(percent,status);
 
-Customer will comply with all applicable export and import laws and
-regulations that apply to the Software.
+const save=JSON.parse(localStorage.getItem("OPERATEURS_RESULTS"))||[];
+save.push({nom:nom.value,matricule:matricule.value,theme:theme.value,percent,status,date:new Date().toLocaleDateString()});
+localStorage.setItem("OPERATEURS_RESULTS",JSON.stringify(save));
+};
 
-Disclaimer; Limitations of Liability
-------------------------------------
+// PDF
+function generatePDF(p,s){
+const pdf=new jsPDF();
+pdf.text("FICHE DE FORMATION OPERATEUR",105,30,{align:"center"});
+pdf.text(`Nom : ${nom.value}`,20,50);
+pdf.text(`Matricule : ${matricule.value}`,20,60);
+pdf.text(`Formation : ${theme.value}`,20,70);
+pdf.text(`Résultat : ${p}% - ${s}`,20,80);
+pdf.text(`Date : ${new Date().toLocaleDateString()}`,20,90);
+pdf.save(`Formation_${matricule.value}.pdf`);
+}
 
-THE SOFTWARE, INCLUDING ANY ADDITIONAL SERVICES, IS PROVIDED ON AN
-"AS-IS" BASIS, AND GITHUB GIVES NO EXPRESS WARRANTIES, GUARANTEES OR
-CONDITIONS. TO THE EXTENT PERMITTED BY APPLICABLE LAW, GITHUB
-DISCLAIMS THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NON-INFRINGEMENT. YOUR USE OF THE SOFTWARE IS
-AT YOUR SOLE RISK.
+// FORMATEUR
+btnFormateur.onclick=()=>{
+if(prompt("Mot de passe Formateur")===FORMATEUR_PASSWORD){
+formateurBox.classList.toggle("hidden");refreshF();
+}else alert("Accès refusé");
+};
 
-TO THE EXTENT PERMITTED BY APPLICABLE LAW, YOU EXPRESSLY UNDERSTAND
-AND AGREE THAT (1) YOU CAN RECOVER DIRECT DAMAGES RELATING TO THE
-SOFTWARE, INCLUDING ANY ADDITIONAL SERVICES, UP TO U.S. $5.00 FROM
-GITHUB AND ITS SUPPLIERS, AND (2) GITHUB WILL NOT BE LIABLE FOR ANY
-INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES,
-INCLUDING, WITHOUT LIMITATION, ANY DAMAGES FOR LOSS OF PROFITS,
-GOODWILL, USE, OR DATA OR OTHER INTANGIBLE LOSSES (EVEN IF GITHUB HAS
-BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES) RELATING TO THE
-SOFTWARE, INCLUDING ANY ADDITIONAL SERVICES.
+function refreshF(){
+fList.innerHTML="";
+(QUESTIONS[fTheme.value]||[]).forEach((q,i)=>{
+fList.innerHTML+=`${q.fr}<br><small>${q.ar}</small>
+<button onclick="delQ('${fTheme.value}',${i})">❌</button><br>`;
+});
+}
 
-Miscellaneous
--------------
+btnAddQ.onclick=()=>{
+QUESTIONS[fTheme.value].push({fr:qFR.value,ar:qAR.value,a:fAnswer.value==="true"});
+localStorage.setItem("QUESTIONS_FR_AR",JSON.stringify(QUESTIONS));
+qFR.value="";qAR.value="";refreshF();
+};
 
-_No Waiver._ The failure of GitHub to exercise or enforce any right or
-provision of these Terms will not constitute a waiver of such right or
-provision.
+function delQ(t,i){
+QUESTIONS[t].splice(i,1);
+localStorage.setItem("QUESTIONS_FR_AR",JSON.stringify(QUESTIONS));
+refreshF();
+}
+window.delQ=delQ;
 
-_Entire Agreement._ These Terms, together with any open source
-software licenses referenced above, constitutes the entire agreement
-between you and GitHub regarding your use of the Software, superseding
-any prior agreements between you and GitHub (including, but not
-limited to, any prior versions of these Terms) regarding such use.
+// EXPORT AUDIT
+btnExportAudit.onclick=()=>{
+const pdf=new jsPDF();
+pdf.text("Audit IATF – Résultats Formation",105,20,{align:"center"});
+let y=40;
+(JSON.parse(localStorage.getItem("OPERATEURS_RESULTS"))||[]).forEach(r=>{
+pdf.text(`${r.nom} | ${r.matricule} | ${r.theme} | ${r.percent}% | ${r.status} | ${r.date}`,10,y);
+y+=10;if(y>280){pdf.addPage();y=20;}
+});
+pdf.save("Audit_IATF.pdf");
+};
+</script>
 
-_Governing Law._ You agree that these Terms and your use of the
-Software are governed by the laws of the State of California and any
-dispute relating to the Software or your use thereof must be brought
-in a tribunal of competent jurisdiction located in or near San
-Francisco, California.
-
-_Modifications._ These Terms may only be modified by a written
-amendment signed by an authorized representative of GitHub, or by the
-posting by GitHub of a revised version.
-
-_Contact Us._ Questions about these Terms? Contact us at
-https://support.github.com/contact.
+</body>
+</html>
